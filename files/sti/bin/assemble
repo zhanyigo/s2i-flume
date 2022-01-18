@@ -1,0 +1,26 @@
+#!/bin/bash
+
+HOME=/opt/app-root/src
+
+# we will move any code provided by s2i to here
+LOCAL_SOURCE_DIR=${HOME}/source
+mkdir -p $LOCAL_SOURCE_DIR
+# TODO: Verify a $HOME is set
+
+# Copy the source for compilation
+# TODO: Remove. Why do we need to move the source???
+if compgen -G "/tmp/src/*" >/dev/null; then
+  mkdir -p $LOCAL_SOURCE_DIR
+  cp -ad /tmp/src/* $LOCAL_SOURCE_DIR
+fi
+
+# Resulting artifact files will be deployed to /opt/openshift
+DEPLOY_DIR=/opt/openshift
+
+cp -r ${LOCAL_SOURCE_DIR}/conf/* ${DEPLOY_DIR}/conf/
+
+if [[ -d ${LOCAL_SOURCE_DIR}/lib ]]; then
+  cp -rf ${LOCAL_SOURCE_DIR}/lib/* ${DEPLOY_DIR}/lib/
+fi
+
+exit 0

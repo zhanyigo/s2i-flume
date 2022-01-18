@@ -31,6 +31,8 @@ RUN ls /tmp && \
     mv -f /tmp/sti/bin /usr/local/sti && \
     tar xzvf /tmp/apache-flume-*-bin.tar.gz -C /opt/openshift --strip-components=1  && \
     mv -f /tmp/conf/*  /opt/openshift/conf && \
+    mv -f /tmp/plugins.d  /opt/openshift/plugins.d && \
+    chown 1001:0 /opt/openshift && \
     rm -rf /tmp/*
 
 # This default user is created in the openshift/base-centos7 image

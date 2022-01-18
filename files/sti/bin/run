@@ -1,0 +1,31 @@
+#!/bin/bash -e
+#
+# S2I run script for the 's2i-java' image.
+# The run script executes the server that runs your application.
+#
+# For more information see the documentation:
+#	https://github.com/openshift/source-to-image/blob/master/docs/builder_image.md
+#
+
+export JAVA_MAX_RAM_PERCENTAGE=${JAVA_MAX_RAM_PERCENTAGE:-85.00}
+export JAVA_MIN_RAM_PERCENTAGE=${JAVA_MIN_RAM_PERCENTAGE:-20.00}
+export JAVA_INIT_RAM_PERCENTAGE=${JAVA_INIT_RAM_PERCENTAGE:-30.00}
+export FLUME_CONF_FILE="${FLUME_CONF_FILE:-flume.conf}"
+export FLUME_EXTRA_OPTS="${FLUME_EXTRA_OPTS:-}"
+export FLUME_HOME=/opt/openshift
+
+if [[ -z "$DEPLOY_ENV" ]]; then
+    export FLUME_AGENT_NAME=$HOSTNAME
+fi
+
+if [[ -z "JAVA_HOME" ]]; then
+    export JAVA_DEFAULT=$(readlink $(which java))
+fi
+
+
+
+cd /opt/openshift && \
+exec ./bin/flume-ng agent -c ./conf -f conf/${FLUME_CONF_FILE} -n ${FLUME_AGENT_NAME} ${FLUME_EXTRA_OPTS} \
+    -XX:OnOutOfMemoryError="\"kill -9 %p\"" \
+    -XX:MinRAMPercentage=$JAVA_MIN_RAM_PERCENTAGE -XX:InitialRAMPercentage=$JAVA_INIT_RAM_PERCENTAGE -XX:MaxRAMPercentage=$JAVA_MAX_RAM_PERCENTAGE
+
