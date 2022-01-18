@@ -26,7 +26,7 @@
 APP_OPTS=${APP_OPTS:-""}
 
 # Give Flume more memory and pre-allocate, enable remote monitoring via JMX
-export JAVA_OPTS=-Djava.security.egd=file:/dev/./urandom   -Dfile.encoding=UTF-8
+export JAVA_OPTS="-Djava.security.egd=file:/dev/./urandom   -Dfile.encoding=UTF-8"
 
 # Let Flume write raw event data and configuration information to its log files for debugging
 # purposes. Enabling these flags is not recommended in production,

@@ -14,7 +14,7 @@ export FLUME_CONF_FILE="${FLUME_CONF_FILE:-flume.conf}"
 export FLUME_EXTRA_OPTS="${FLUME_EXTRA_OPTS:-}"
 export FLUME_HOME=/opt/openshift
 
-if [[ -z "$DEPLOY_ENV" ]]; then
+if [[ -z "FLUME_AGENT_NAME" ]]; then
     export FLUME_AGENT_NAME=$HOSTNAME
 fi
 
