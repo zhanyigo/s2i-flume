@@ -11,17 +11,13 @@ export JAVA_MAX_RAM_PERCENTAGE=${JAVA_MAX_RAM_PERCENTAGE:-85.00}
 export JAVA_MIN_RAM_PERCENTAGE=${JAVA_MIN_RAM_PERCENTAGE:-20.00}
 export JAVA_INIT_RAM_PERCENTAGE=${JAVA_INIT_RAM_PERCENTAGE:-30.00}
 export FLUME_CONF_FILE="${FLUME_CONF_FILE:-flume.conf}"
+export FLUME_AGENT_NAME="${FLUME_AGENT_NAME:-agent}"
 export FLUME_EXTRA_OPTS="${FLUME_EXTRA_OPTS:-}"
 export FLUME_HOME=/opt/openshift
 
-if [[ -z "FLUME_AGENT_NAME" ]]; then
-    export FLUME_AGENT_NAME=$HOSTNAME
-fi
-
 if [[ -z "JAVA_HOME" ]]; then
-    export JAVA_DEFAULT=$(readlink $(which java))
+    export JAVA_DEFAULT=$(readlink -f $(which java))
 fi
-
 
 
 cd /opt/openshift && \
